@@ -4,7 +4,6 @@
 import math
 from random import randint, shuffle
 import pyautogui as pya
-import time
 import pandas as pd
 
 
