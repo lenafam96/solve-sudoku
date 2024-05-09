@@ -1,7 +1,11 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
+import math
 from random import randint, shuffle
+import pyautogui as pya
+import time
+import pandas as pd
 
 
 def print_board(board):
@@ -164,7 +168,49 @@ def generate_board():
 
 
 if __name__ == "__main__":
-    board = generate_board()
-    print_board(board)
+    # board = generate_board()
+    # print_board(board)
+    board = [
+        [0,0,7,0,0,5,0,0,3],
+        [0,0,9,0,6,0,0,0,0],
+        [3,6,0,0,0,8,2,0,0],
+        [0,0,6,0,0,0,0,0,0],
+        [5,1,0,0,8,0,0,0,9],
+        [0,0,0,0,0,2,0,4,0],
+        [0,0,0,5,0,0,9,0,0],
+        [8,3,0,0,1,0,0,0,5],
+        [7,0,0,0,0,0,0,0,0],
+    ]
+
+    # with open('broad.csv', 'r') as f:
+    #     board = []
+    #     for line in f:
+    #         row = line.strip().split(',')
+    #         row = [int(x) if x != '' else 0 for x in row]
+    #         board.append(row)
+
+    # read board from xlsx file
+    board = pd.read_excel('board.xlsx', header=None).values.tolist()
+    for i in range(9):
+        for j in range(9):
+            board[i][j] = int(board[i][j]) if math.isnan(board[i][j]) == False else 0
+            
     solve(board)
     print_board(board)
+    pya.hotkey('alt', 'tab')
+    # time.sleep(0.0001)
+    for i in range(9):
+        if i%2 == 0:
+            for j in range(9):
+                pya.hotkey(str(board[i][j]))
+                # time.sleep(0.0001)
+                pya.hotkey('right')
+                # time.sleep(0.0001)
+        else:
+            for j in range(8, -1, -1):
+                pya.hotkey(str(board[i][j]))
+                # time.sleep(0.0001)
+                pya.hotkey('left')
+                # time.sleep(0.0001)
+        pya.hotkey('down')
+        # time.sleep(0.0001)
