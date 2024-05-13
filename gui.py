@@ -1,5 +1,6 @@
 # DataFlair Sudoku solver
 
+import sys
 import cv2
 import numpy as np
 from tensorflow.keras.models import load_model
@@ -8,9 +9,8 @@ from sudokutools import solve
 from auto import auto
 import pyautogui as pya
 import tkinter as tk
-import tkinter as tk
+from PIL import ImageGrab
 from tkinter import messagebox
-from pynput.mouse import Listener
 
 
 classes = np.arange(0, 10)
@@ -82,7 +82,11 @@ def split_boxes(board):
 
 
 def main():
-    im = pya.screenshot(region=(300, 180, 580, 530))
+    # if window os is windows
+    if sys.platform == 'win32':
+        im = pya.screenshot(region=(300, 180, 580, 530))
+    elif sys.platform == 'darwin':
+        im = pya.screenshot(region=(330, 230, 550, 530))
 
     img = np.array(im)
     img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
@@ -128,7 +132,7 @@ def main():
 
     print(board_num)
 
-    auto(board_num, pya)
+    auto(board_num, pya, sys)
 
 # create a tkinter window
 root = tk.Tk()

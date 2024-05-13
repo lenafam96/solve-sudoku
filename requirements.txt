@@ -1,1 +1,9 @@
 pygame==2.0.1
+opencv-python==4.6.0.66
+tensorflow
+imutils
+PyAutoGUI==0.9.54
+pyobjc-core==8.0b1
+pyobjc-framework-Cocoa==8.0b1
+pyobjc-framework-Quartz==8.0b1
+pandas
