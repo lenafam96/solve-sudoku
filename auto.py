@@ -19,10 +19,10 @@ def auto(board, pya, sys=None):
             # time.sleep(0.0001)
         pya.hotkey('alt', 'tab')
     elif sys.platform == 'darwin':
-        pya.keyDown('command')
-        pya.press('tab')
-        pya.keyUp('command')
-
+        # pya.keyDown('command')
+        # pya.press('tab')
+        # pya.keyUp('command')
+        pya.click(100, 500)
         # time.sleep(0.0001)
         for i in range(9):
             if i%2 == 0:
