@@ -11,6 +11,7 @@ import pyautogui as pya
 import tkinter as tk
 from PIL import ImageGrab
 from tkinter import messagebox
+from tkmacosx import Button
 
 
 classes = np.arange(0, 10)
@@ -139,8 +140,10 @@ root = tk.Tk()
 root.title("Sudoku Solver")
 canvas1 = tk.Canvas(root, width = 300, height = 300)
 canvas1.pack()
-    
-button1 = tk.Button(text="Solve Sudoku", command=main, bg='green',fg='white', width=25, height=5)
+if sys.platform == 'win32':
+    button1 = tk.Button(text="Solve Sudoku", command=main, bg='green',fg='white', width=25, height=5)
+elif sys.platform == 'darwin':
+    button1 = Button(text="Solve Sudoku", command=main, bg='#ADEFD1',fg='#00203F', width=250, height=100)
 canvas1.create_window(150, 150, window=button1)
 
 root.mainloop()
