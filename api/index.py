@@ -33,10 +33,13 @@ def board():
     
     return json.dumps({'success':True, 'data': {'origin': origin, 'board': board}}), 200, {'ContentType':'application/json'}
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return json.dumps({'success':False, 'message': 'Page not found'}), 404, {'ContentType':'application/json'}
 
 
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=1026)
+# if __name__ == '__main__':
+#     app.run(host='0.0.0.0', port=1026)
     # app.run(debug=True)
