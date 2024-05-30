@@ -1,18 +1,11 @@
 # DataFlair Sudoku solver
 
-import sys
+import copy
 import cv2
 import numpy as np
 from tensorflow.keras.models import load_model
 import imutils
 from sudokutools import solve
-from auto import auto
-import pyautogui as pya
-import tkinter as tk
-from PIL import ImageGrab
-from tkinter import messagebox
-from tkmacosx import Button
-import copy
 
 
 classes = np.arange(0, 10)
@@ -116,79 +109,12 @@ def solve_sudoku(img):
     # convert numpy array to list
     board_num = board_num.tolist()
 
-    print(board_num)
-    return board_num
-
-
-def main():
-    # if window os is windows
-    if sys.platform == 'win32':
-        im = pya.screenshot(region=(300, 180, 580, 530))
-    elif sys.platform == 'darwin':
-        if pya.size()[0] == 1920:
-            im = pya.screenshot(region=(330, 230, 550, 530))
-        elif pya.size()[0] == 1792:
-            im = pya.screenshot(region=(290, 230, 530, 530))
-        else:
-            messagebox.showinfo("Error", "Screen resolution not supported")
-            return
-
-    img = np.array(im)
-    img = cv2.cvtColor(img, cv2.COLOR_RGB2BGR)
-
-    # cv2.imshow("Original Image", img)
-    # cv2.waitKey(0)
-    # exit()
-    board, location = find_board(img)
-
-    if board is None:
-        messagebox.showinfo("Error", "Board not found")
-        return
-
-
-    gray = cv2.cvtColor(board, cv2.COLOR_BGR2GRAY)
-    # print(gray.shape)
-    rois = split_boxes(gray)
-    rois = np.array(rois).reshape(-1, input_size, input_size, 1)
-
-    # get prediction
-    prediction = model.predict(rois)
-    # print(prediction)
-
-    predicted_numbers = []
-    # get classes from prediction
-    for i in prediction: 
-        index = (np.argmax(i)) # returns the index of the maximum number of the array
-        predicted_number = classes[index]
-        predicted_numbers.append(predicted_number)
-
-    # print(predicted_numbers)
-
-    # reshape the list 
-    board_num = np.array(predicted_numbers).astype('uint8').reshape(9, 9)
-
-    # convert numpy array to list
-    board_num = board_num.tolist()
-
     original_board = copy.deepcopy(board_num)
+
     print(board_num)
 
-    # solve the sudoku
     solve(board_num)
 
-    print(board_num)
 
-    auto(original_board, board_num, pya, sys)
+    return board_num, original_board
 
-# create a tkinter window
-root = tk.Tk()
-root.title("Sudoku Solver")
-canvas1 = tk.Canvas(root, width = 300, height = 300)
-canvas1.pack()
-if sys.platform == 'win32':
-    button1 = tk.Button(text="Solve Sudoku", command=main, bg='green',fg='white', width=25, height=5)
-elif sys.platform == 'darwin':
-    button1 = Button(text="Solve Sudoku", command=main, bg='#ADEFD1',fg='#00203F', width=250, height=100)
-canvas1.create_window(150, 150, window=button1)
-
-root.mainloop()
