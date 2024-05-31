@@ -1,10 +1,8 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-import math
 from random import randint, shuffle
 # import pyautogui as pya
-import pandas as pd
 
 
 def print_board(board):
